@@ -406,9 +406,10 @@ function setRawDone(id,v){try{v?localStorage.setItem(KEY+id,'1'):localStorage.re
 function hasTasks(e){return e.tasks&&e.tasks.length}
 function taskDone(eid,tid){return rawDone(eid+'#'+tid)}
 function tasksDoneCount(e){var n=0;e.tasks.forEach(function(t){if(taskDone(e.id,t.id))n++});return n}
-function isDone(e){return hasTasks(e)?tasksDoneCount(e)===e.tasks.length:rawDone(e.id)}
+function autoDone(e){var ac=acNow();if(ac.date>e.d)return true;if(ac.date<e.d)return false;var en=(e.e!=null?e.e:e.s+20);return ac.mins>=en+30}
+function isDone(e){if(autoDone(e))return true;return hasTasks(e)?tasksDoneCount(e)===e.tasks.length:rawDone(e.id)}
 function toggleDone(e){
-  if(hasTasks(e)){var all=isDone(e);e.tasks.forEach(function(t){setRawDone(e.id+'#'+t.id,!all)})}
+  if(hasTasks(e)){var all=tasksDoneCount(e)===e.tasks.length;e.tasks.forEach(function(t){setRawDone(e.id+'#'+t.id,!all)})}
   else setRawDone(e.id,!rawDone(e.id));
 }
 function haptic(on){if(navigator.vibrate){try{navigator.vibrate(on?16:0)}catch(e){}}}
@@ -596,11 +597,15 @@ function tick(){
     var card=document.getElementById(e.id);if(!card)return;
     var bdg=document.getElementById('bdg-'+e.id);
     card.classList.remove('nowev','active','past');
+    var done=isDone(e);
+    card.classList.toggle('done',done);
+    var chip=document.querySelector('.fchip[data-go="'+e.id+'"]');if(chip)chip.classList.toggle('done',done);
     if(bdg){bdg.className='badge';bdg.style.display='none';bdg.textContent=''}
     if(!viewingToday)return;
+    if(done)return;
     var en=(e.e!=null?e.e:e.s+20);
     if(ac.mins>=e.s&&ac.mins<en){active.push(e)}
-    else if(ac.mins>=en&&!isDone(e)){card.classList.add('past');if(bdg){bdg.className='badge b-past';bdg.style.display='inline-block';bdg.textContent='ENDED'}}
+    else if(ac.mins>=en){card.classList.add('past');if(bdg){bdg.className='badge b-past';bdg.style.display='inline-block';bdg.textContent='ENDED'}}
   });
   var current=null;
   if(viewingToday){
