@@ -17,6 +17,7 @@
     --hair:rgba(15,22,38,.08); --hair2:rgba(15,22,38,.13);
     --now:#0a9d63; --now2:#0b7e51; --nowtint:rgba(10,157,99,.10);
     --accent:#2f6bf0; --gold:#b3801a; --goldtint:#fbf3df;
+    --mine:#4f46e5; --minetint:#eceafb;
     --amber:#b45309; --ambertint:#fdf0dd;
     --an:#0a8f4f; --antint:#e7f6ee;
     --vid:#c2410c; --vidtint:#fdece1;
@@ -110,6 +111,15 @@
   .tab.today::after{content:"TODAY";display:block;font-size:7.5px;letter-spacing:1px;color:var(--ink3);font-weight:800;margin-top:3px}
   .tab.active.today::after{color:var(--now)}
 
+  /* VIEW TOGGLE */
+  .viewtog{display:flex;gap:3px;margin:9px 14px 0;background:var(--canvas2);border:1px solid var(--hair);border-radius:13px;padding:4px}
+  .viewtog button{flex:1;border:none;background:transparent;color:var(--ink2);font-weight:700;font-size:12.5px;padding:9px 6px;border-radius:10px;cursor:pointer;transition:background .2s,box-shadow .2s,transform .12s}
+  .viewtog button .c{color:var(--ink3);font-weight:700;font-size:11px;margin-left:5px}
+  .viewtog button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh-xs)}
+  .viewtog button.on.mine{color:var(--mine)}
+  .viewtog button.on .c{color:inherit;opacity:.7}
+  .viewtog button:active{transform:scale(.98)}
+
   /* FOCUS STRIP */
   .focus{margin:16px 14px 0}
   .focus h3{font-size:11px;letter-spacing:1.1px;text-transform:uppercase;color:var(--gold);margin:0 0 9px;font-weight:800;display:flex;align-items:center;gap:6px}
@@ -124,15 +134,16 @@
   .fchip .fw{font-size:11px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:214px}
 
   /* TIMELINE */
-  .tl{margin:20px 0 0;padding:0 14px}
+  .tl{margin:18px 0 0;padding:0 14px}
   .hourgrp{display:flex;gap:13px}
   .rail{flex:0 0 42px;text-align:right;position:relative}
-  .rail .hr{font-size:11.5px;font-weight:800;color:var(--ink3);padding-top:14px;letter-spacing:.2px}
+  .rail .hr{font-size:11.5px;font-weight:800;color:var(--ink3);padding-top:13px;letter-spacing:.2px}
   .rail.active .hr{color:var(--now)}
   .rail::before{content:"";position:absolute;right:-7px;top:0;bottom:0;width:1.5px;background:var(--hair2)}
-  .rail .dot{position:absolute;right:-11px;top:18px;width:9px;height:9px;border-radius:50%;background:#cdd3dd;border:2px solid var(--canvas)}
+  .rail .dot{position:absolute;right:-11px;top:17px;width:9px;height:9px;border-radius:50%;background:#cdd3dd;border:2px solid var(--canvas)}
   .rail.active .dot{background:var(--now);box-shadow:0 0 0 4px var(--nowtint)}
-  .col{flex:1;min-width:0;padding-bottom:8px}
+  .col{flex:1;min-width:0;padding-bottom:6px}
+  .openhr{min-height:18px}
 
   /* NOW LINE */
   .nowline{display:flex;align-items:center;gap:10px;margin:4px 0 12px;animation:fadein .45s ease}
@@ -142,7 +153,7 @@
   .nlrule{flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--now),rgba(10,157,99,.06))}
 
   .ev{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--hair);
-    border-radius:18px;padding:13px 14px;margin-bottom:10px;transition:opacity .25s,box-shadow .2s,border-color .2s,transform .12s;position:relative;box-shadow:var(--sh-sm)}
+    border-radius:18px;padding:13px 14px;margin-bottom:9px;transition:opacity .25s,box-shadow .2s,border-color .2s,transform .12s;position:relative;box-shadow:var(--sh-sm)}
   .ev .stripe{position:absolute;left:0;top:13px;bottom:13px;width:3px;border-radius:0 3px 3px 0;background:var(--accent)}
   .ev.t-duty .stripe{background:var(--hc)}
   .ev.t-session .stripe{background:var(--accent)}
@@ -152,7 +163,8 @@
   .ev.t-break .stripe{background:#cbd2dd}
   .ev.t-film .stripe{background:var(--vid)}
   .ev.t-info .stripe{background:#cbd2dd}
-  .ev.focus{border-color:#ecd9a6;box-shadow:0 1px 3px rgba(179,128,26,.10),0 8px 22px -14px rgba(179,128,26,.4)}
+  .ev.mine{border-color:rgba(79,70,229,.28);background:linear-gradient(180deg,rgba(79,70,229,.035),transparent),var(--card)}
+  .ev.focus{border-color:#ecd9a6;background:linear-gradient(180deg,rgba(179,128,26,.05),transparent),var(--card)}
   .ev.active{border-color:rgba(10,157,99,.4)}
   .ev.nowev{border-color:var(--now);box-shadow:0 0 0 1px var(--now),0 14px 30px -16px rgba(10,157,99,.5)}
   .ev.past{opacity:.5}
@@ -173,6 +185,7 @@
   .evtime{font-size:11.5px;font-weight:800;color:var(--ink2);letter-spacing:.2px;display:flex;align-items:center;flex-wrap:wrap;gap:7px}
   .ev.nowev .evtime{color:var(--now2)}
   .evtitle{font-size:15.5px;font-weight:700;margin:3px 0 2px;letter-spacing:-.1px;line-height:1.28;color:var(--ink)}
+  .ev:not(.mine):not(.focus) .evtitle{font-weight:600}
   .evwhere{font-size:12.5px;color:var(--ink2);line-height:1.38}
   .badge{display:inline-block;font-size:8.5px;font-weight:800;letter-spacing:.5px;padding:3px 8px;border-radius:99px}
   .b-now{background:var(--now);color:#fff;box-shadow:0 3px 9px -3px rgba(10,157,99,.6)}
@@ -186,6 +199,8 @@
   .c-br{color:var(--br);background:var(--brtint)}
   .c-hc{color:var(--hc);background:var(--hctint)}
   .c-star{color:var(--gold);background:var(--goldtint)}
+  .c-mine{color:var(--mine);background:var(--minetint)}
+  .c-cat{color:var(--ink3);background:var(--canvas2)}
 
   /* SUB-TASK CHECKLIST */
   .subwrap{margin-top:12px;border-top:1px solid var(--hair);padding-top:11px}
@@ -208,16 +223,17 @@
   details.note{margin-top:10px}
   details.note summary{list-style:none;font-size:11.5px;color:var(--accent);font-weight:700;cursor:pointer;display:inline-block}
   details.note summary::-webkit-details-marker{display:none}
-  details.note summary::before{content:"Options \25B8 "}
+  details.note summary::before{content:"Details \25B8 "}
   details.note[open] summary::before{content:"Hide \25BE "}
   details.note .nbody{font-size:12px;color:var(--ink2);margin-top:7px;line-height:1.55}
 
-  .dayhead{padding:8px 16px 2px;margin-top:10px}
+  .dayhead{padding:10px 16px 2px;margin-top:8px}
   .dayhead h2{font-size:18px;margin:0;color:var(--ink);letter-spacing:-.3px;font-weight:800}
   .dayhead span{font-size:12px;color:var(--ink3)}
   .resetbar{margin:10px 14px 0;text-align:center}
   .resetbar button{background:var(--card);border:1px solid var(--hair);color:var(--ink3);font-size:11px;padding:9px 16px;border-radius:99px;cursor:pointer;font-weight:600;box-shadow:var(--sh-xs)}
   .resetbar button:active{transform:scale(.97)}
+  .empty{margin:18px 14px;padding:26px 16px;text-align:center;color:var(--ink3);font-size:13px;background:var(--card);border:1px solid var(--hair);border-radius:16px}
 
   .tip{margin:18px 14px 0;background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:13px 15px;font-size:12px;color:var(--ink2);position:relative;display:flex;gap:11px;align-items:flex-start;box-shadow:var(--sh-sm)}
   .tip b{color:var(--ink);font-weight:700}
@@ -229,7 +245,6 @@
   .info-note b{color:var(--ink);font-weight:700}
   footer{padding:20px 18px;text-align:center;font-size:10.5px;color:var(--ink3);line-height:1.6}
 
-  /* FLOATING NOW BUTTON */
   .nowbtn{position:fixed;z-index:50;right:calc(16px + var(--safe-r));bottom:calc(20px + var(--safe-b));
     background:linear-gradient(180deg,#15b977,var(--now));color:#fff;border:none;border-radius:99px;
     padding:13px 18px;font-size:12px;font-weight:800;letter-spacing:.8px;box-shadow:0 14px 30px -10px rgba(10,157,99,.6),0 2px 6px rgba(16,24,40,.18);
@@ -284,6 +299,7 @@
   </div>
 
   <nav id="tabs"></nav>
+  <div class="viewtog" id="viewTog"></div>
 
   <div class="focus" id="focusWrap" style="display:none">
     <h3>★ For you · analyst &amp; video picks</h3>
@@ -302,7 +318,7 @@
   </div>
 
   <div class="info-note">
-    <b>Saved on this phone.</b> Your check marks stay put when you refresh or reopen the page. All times are live Atlantic City time.
+    <b>Saved on this phone.</b> Your check marks and your view choice stay put when you refresh or reopen. All times are live Atlantic City time.
   </div>
 
   <footer>
@@ -321,9 +337,10 @@ var DAYS=[
   {id:'fri',date:'2026-06-19',name:'Friday, June 19',sub:'Visual storytelling · dismantle · Gabriel Awards'}
 ];
 // type: duty|session|meal|mass|transport|break|film|info ; tags: an vid br hc
+// mine:true = on Emmy's plan ; focus:true = highlighted pick ; cat = category label
 var EV=[
-  // TUESDAY
-  {id:'tue-setup',d:'2026-06-16',s:480,e:960,type:'duty',title:'Exhibitor Setup: build FTP #1 & HCFM #2',where:'Avalon 15–17 Exhibit Hall, WCC',tags:['hc'],
+  // ===== TUESDAY =====
+  {id:'tue-setup',d:'2026-06-16',s:480,e:960,type:'duty',mine:true,title:'Exhibitor Setup: build FTP #1 & HCFM #2',where:'Avalon 15–17 Exhibit Hall, WCC',tags:['hc'],
     tasks:[
       {id:'cloth',label:'Lay black tablecloths on both booths'},
       {id:'banner',label:'Hang banner across the top'},
@@ -334,54 +351,87 @@ var EV=[
     note:'Installed by 4:00 PM. Black tablecloth first, banner across the top, then floor posters and table layout.'},
   {id:'tue-board',d:'2026-06-16',s:600,e:900,type:'info',title:'CMA Board of Directors Meeting',where:'Avalon 24–25 · closed'},
   {id:'tue-reg',d:'2026-06-16',s:780,e:1080,type:'info',title:'Registration Desk Open',where:'2nd Floor, WCC · badge + Wi-Fi'},
-  {id:'tue-tr1',d:'2026-06-16',s:1020,e:null,type:'transport',title:'Jitney to Opening Mass',where:'WCC Porte Entrance (across from Wildwood 12)'},
-  {id:'tue-mass',d:'2026-06-16',s:1080,e:null,type:'mass',title:'Opening Mass',where:'St. Nicholas of Tolentine, 1409 Pacific Ave'},
-  {id:'tue-welcome',d:'2026-06-16',s:1140,e:1320,type:'duty',title:'FTP Welcome on the Boardwalk',where:'LandShark Bar & Grill · sponsored by Family Theater',tags:['hc'],note:'The FTP dinner. Be present and visible for FTP. Dinner, music, networking on the beach.'},
-  {id:'tue-tr2',d:'2026-06-16',s:1260,e:1320,type:'transport',title:'Jitney back to Harrah’s',where:'Resorts Casino Hotel curb, off the boardwalk'},
+  {id:'tue-tr1',d:'2026-06-16',s:1020,e:null,type:'transport',mine:true,title:'Jitney to Opening Mass',where:'Depart WCC Porte Entrance'},
+  {id:'tue-mass',d:'2026-06-16',s:1080,e:null,type:'mass',mine:true,title:'Opening Mass',where:'St. Nicholas of Tolentine, 1409 Pacific Ave'},
+  {id:'tue-welcome',d:'2026-06-16',s:1140,e:1320,type:'duty',mine:true,title:'Welcome & Networking on the Boardwalk',where:'LandShark Bar & Grill · sponsored by Family Theater',tags:['hc'],note:'The FTP-sponsored welcome. Be present and visible for FTP. Dinner, music, networking on the beach.'},
+  {id:'tue-tr2',d:'2026-06-16',s:1260,e:1320,type:'transport',mine:true,title:'Jitney back to Harrah’s',where:'Depart Resorts Casino Hotel curb'},
 
-  // WEDNESDAY
+  // ===== WEDNESDAY =====
   {id:'wed-pray',d:'2026-06-17',s:420,e:1020,type:'info',title:'Prayer Room Open',where:'Avalon 8'},
-  {id:'wed-exh',d:'2026-06-17',s:420,e:990,type:'duty',title:'Exhibit Hall Open: staff HCFM #2',where:'Avalon 15–17 · breakfast 7:00–8:30',tags:['hc']},
+  {id:'wed-pastpres',d:'2026-06-17',s:420,e:480,type:'meal',title:'Past Presidents Breakfast',where:'Coastal Craft Kitchen & Bar'},
+  {id:'wed-exh',d:'2026-06-17',s:420,e:990,type:'duty',mine:true,title:'Exhibit Hall Open: staff HCFM #2',where:'Avalon 15–17 · coffee + grab-and-go 7:00–8:30',tags:['hc']},
   {id:'wed-reg',d:'2026-06-17',s:450,e:1140,type:'info',title:'Registration Desk Open',where:'2nd Floor, WCC'},
-  {id:'wed-s1',d:'2026-06-17',s:540,e:660,type:'session',title:'Master Camp: From Mission to Metrics',where:'Chris Baker · Avalon 5–6',tags:['an'],focus:true,note:'Your analyst pick. Organic vs paid, what drives giving, measuring past vanity metrics. Alternatives: Taylor Black AI hands-on (Avalon 10–12, bring laptop); Why Good Branding Matters (Avalon 20–21).'},
-  {id:'wed-br1',d:'2026-06-17',s:660,e:690,type:'break',title:'Networking Break',where:'Exhibit Hall · be at booth'},
-  {id:'wed-key',d:'2026-06-17',s:690,e:780,type:'meal',title:'Opening Luncheon + AI Keynote',where:'Taylor Black · Avalon Ballroom',tags:['an','br'],focus:true},
-  {id:'wed-des',d:'2026-06-17',s:780,e:840,type:'break',title:'Dessert in Exhibit Hall',where:'Booth'},
-  {id:'wed-s2',d:'2026-06-17',s:840,e:915,type:'session',title:'Fr. Guffey: Catholic Storytelling',where:'Family Theater · Avalon 2–3',tags:['hc','vid'],focus:true,note:'Our National Director, storytelling for film/TV/streaming/YouTube. Analyst alternative this slot: Digital Media Roundtable (Avalon 5–6).'},
-  {id:'wed-br2',d:'2026-06-17',s:915,e:990,type:'break',title:'Networking Break',where:'Exhibit Hall · booth'},
-  {id:'wed-mass',d:'2026-06-17',s:1020,e:null,type:'mass',title:'Mass',where:'Avalon Ballroom'},
+  // Session 1 | Master Camps 9:00-11:00
+  {id:'wed-s1a',d:'2026-06-17',s:540,e:660,type:'session',cat:'Master Camp',title:'Hands on the Tools: From Friction to Flow',where:'Taylor Black, Leonum Institute · Avalon Breakout Rooms'},
+  {id:'wed-s1b',d:'2026-06-17',s:540,e:660,type:'session',cat:'Master Camp',title:'Why Good Branding Matters in Catholic Ministry',where:'Matthew Haas, Syndicate Strategies · Avalon Breakout Rooms'},
+  {id:'wed-s1c',d:'2026-06-17',s:540,e:660,type:'session',mine:true,focus:true,cat:'Master Camp',title:'From Mission to Metrics: Digital Strategy for Growth & Giving',where:'Chris Baker · Avalon 5–6',tags:['an'],note:'Your analyst pick. Organic vs paid, what drives giving, measuring past vanity metrics.'},
+  {id:'wed-s1d',d:'2026-06-17',s:540,e:660,type:'session',cat:'Master Camp',title:'Pause, Pray, Be: Making Space for the Sacred',where:'Mary DeTurris Poust, Not Strictly Spiritual · Avalon Breakout Rooms'},
+  {id:'wed-br1',d:'2026-06-17',s:660,e:690,type:'break',mine:true,title:'Networking Break in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  {id:'wed-key',d:'2026-06-17',s:690,e:780,type:'meal',mine:true,focus:true,title:'Opening Luncheon + AI Keynote',where:'"The Mirror and the Window" · Taylor Black · Avalon Ballroom',tags:['an','br']},
+  {id:'wed-dessert',d:'2026-06-17',s:780,e:840,type:'break',mine:true,title:'Dessert in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  // Session 2 | Roundtables + Special Breakout 2:00-3:15
+  {id:'wed-s2a',d:'2026-06-17',s:840,e:915,type:'session',mine:true,focus:true,cat:'Special Breakout',title:'Catholic Storytelling in a Transformational Time',where:'Fr. David Guffey, C.S.C., Family Theater · Avalon 2–3',tags:['hc','vid'],note:'Our National Director on storytelling for film, TV, streaming, and YouTube.'},
+  {id:'wed-s2b',d:'2026-06-17',s:840,e:915,type:'session',cat:'Roundtable',title:'Editorial Roundtable',where:'Jennifer Brinker, St. Louis Review · Avalon Breakout Rooms'},
+  {id:'wed-s2c',d:'2026-06-17',s:840,e:915,type:'session',cat:'Roundtable',title:'Communications Roundtable',where:'Montie Chavez, Archdiocese of Las Vegas · Avalon Breakout Rooms'},
+  {id:'wed-s2d',d:'2026-06-17',s:840,e:915,type:'session',cat:'Roundtable',title:'Business & Advertising Roundtable',where:'JoAnn DiNapoli, DeSales Media · Avalon Breakout Rooms'},
+  {id:'wed-s2e',d:'2026-06-17',s:840,e:915,type:'session',cat:'Roundtable',title:'Digital Media Roundtable',where:'Nicole Mamura, Archdiocese of St. Paul & Minneapolis · Avalon Breakout Rooms'},
+  {id:'wed-br2',d:'2026-06-17',s:915,e:990,type:'break',mine:true,title:'Networking Break in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  {id:'wed-mass',d:'2026-06-17',s:1020,e:null,type:'mass',mine:true,title:'Mass',where:'Avalon Ballroom'},
 
-  // THURSDAY
+  // ===== THURSDAY =====
   {id:'thu-pray',d:'2026-06-18',s:420,e:1020,type:'info',title:'Prayer Room Open',where:'Avalon 8'},
-  {id:'thu-exh',d:'2026-06-18',s:420,e:990,type:'duty',title:'Exhibit Hall Open: staff HCFM #2',where:'Avalon 15–17 · breakfast 7:00–9:00',tags:['hc']},
+  {id:'thu-exh',d:'2026-06-18',s:420,e:990,type:'duty',mine:true,title:'Exhibit Hall Open: staff HCFM #2',where:'Avalon 15–17 · coffee + grab-and-go 7:00–9:00',tags:['hc']},
   {id:'thu-reg',d:'2026-06-18',s:450,e:1020,type:'info',title:'Registration Desk Open',where:'2nd Floor, WCC'},
   {id:'thu-mem',d:'2026-06-18',s:450,e:540,type:'info',title:'CMA Member Meeting',where:'Avalon Ballroom · optional'},
-  {id:'thu-s3',d:'2026-06-18',s:570,e:645,type:'session',title:'Not Bombing on YouTube',where:'Rob Kaczmark, Spirit Juice · Avalon 10–12',tags:['vid'],focus:true,note:'Live channel audit: thumbnails, titles, descriptions, content systems. Alternatives: Adapt News into Social (Avalon 24–25); Catholic Influencers/USCCB (Avalon 20–21).'},
-  {id:'thu-br1',d:'2026-06-18',s:645,e:690,type:'break',title:'Networking Break',where:'Exhibit Hall · booth'},
-  {id:'thu-foley',d:'2026-06-18',s:690,e:825,type:'meal',title:'Cardinal Foley Luncheon + Media Panel',where:'Avalon Ballroom',tags:['br','an'],focus:true,note:'Communicating the Vision of Pope Leo XIV. Moderator Kerry Weber; panel incl. Dr. Paolo Ruffini (Dicastery for Communication).'},
-  {id:'thu-br2',d:'2026-06-18',s:825,e:870,type:'break',title:'Networking Break',where:'Exhibit Hall · booth'},
-  {id:'thu-s4',d:'2026-06-18',s:885,e:960,type:'session',title:'Google Analytics in an AEO World',where:'Joe Garcia III, eCatholic · Avalon 5–6',tags:['an'],focus:true,note:'YOUR TOP analyst session. GA in an answer-engine world: content structure, performance, website strategy. Alt: AI Diocesan Storytelling (Avalon 24–25).'},
-  {id:'thu-br3',d:'2026-06-18',s:960,e:990,type:'break',title:'Break in Exhibit Hall'},
-  {id:'thu-mass',d:'2026-06-18',s:1020,e:null,type:'mass',title:'Mass',where:'Avalon Ballroom'},
-  {id:'thu-film',d:'2026-06-18',s:1170,e:null,type:'film',title:'Film: Debating Statues & Saints',where:'Avalon 24–25 Theater',tags:['vid'],focus:true},
+  {id:'thu-br0',d:'2026-06-18',s:540,e:570,type:'break',mine:true,title:'Networking Break in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  // Session 3 | Workshops 9:30-10:45
+  {id:'thu-s3a',d:'2026-06-18',s:570,e:645,type:'session',cat:'Workshop',title:'Adapt News Stories into Social Media Content That Pops',where:'CNEWA / ONE Magazine team · Avalon Breakout Rooms'},
+  {id:'thu-s3b',d:'2026-06-18',s:570,e:645,type:'session',cat:'Workshop',title:'The Digital Mission: Engaging & Creating Catholic Influencers',where:'Marilyn Santos & Kendall McLaren, USCCB · Avalon Breakout Rooms'},
+  {id:'thu-s3c',d:'2026-06-18',s:570,e:645,type:'session',cat:'Workshop',title:'Building a Sales-driven Culture in Catholic Media',where:'Cullen, Stephens & Fenger · Avalon Breakout Rooms'},
+  {id:'thu-s3d',d:'2026-06-18',s:570,e:645,type:'session',mine:true,focus:true,cat:'Workshop',title:'A Catholic’s Guide to Not Bombing on YouTube',where:'Rob Kaczmark, Spirit Juice · Avalon 10–12',tags:['vid'],note:'Live channel audit: thumbnails, titles, descriptions, content systems.'},
+  {id:'thu-s3e',d:'2026-06-18',s:570,e:645,type:'session',cat:'Workshop',title:'Crafting Stories That Inspire and Inform',where:'Jennifer Brinker, Catholic St. Louis · Avalon Breakout Rooms'},
+  {id:'thu-br1',d:'2026-06-18',s:645,e:690,type:'break',mine:true,title:'Networking Break in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  {id:'thu-foley',d:'2026-06-18',s:690,e:825,type:'meal',mine:true,focus:true,title:'Cardinal Foley Award Luncheon + Media Panel',where:'"Communicating the Vision of Pope Leo XIV" · Avalon Ballroom',tags:['br','an'],note:'Moderator Kerry Weber; panel incl. Dr. Paolo Ruffini (Prefect, Dicastery for Communication), Carol Glatz, Fr. Arthur Purcaro, OSA.'},
+  {id:'thu-br2',d:'2026-06-18',s:825,e:870,type:'break',mine:true,title:'Networking Break in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  // Session 4 | Workshops 2:45-4:00
+  {id:'thu-s4a',d:'2026-06-18',s:885,e:960,type:'session',cat:'Workshop',title:'Collaborative Journalism: A National Catholic Media Project',where:'Laura Ieraci & Barb Fraze · Avalon Breakout Rooms'},
+  {id:'thu-s4b',d:'2026-06-18',s:885,e:960,type:'session',cat:'Workshop',title:'Proactive, Pastoral, Public: Modern Catholic Media Relations',where:'Torchia, Gambino & Gorrilla · Avalon Breakout Rooms'},
+  {id:'thu-s4c',d:'2026-06-18',s:885,e:960,type:'session',cat:'Workshop',title:'Help Your Bishop Reach 90% of Catholics in Your Diocese',where:'Deacon John Rogers & Mitch Fisher · Avalon Breakout Rooms'},
+  {id:'thu-s4d',d:'2026-06-18',s:885,e:960,type:'session',mine:true,focus:true,cat:'Workshop',title:'Google Analytics in an AEO World',where:'Joe Garcia III, eCatholic · Avalon 5–6',tags:['an'],note:'Your top analyst session. GA in an answer-engine world: content structure, performance, website strategy.'},
+  {id:'thu-s4e',d:'2026-06-18',s:885,e:960,type:'session',cat:'Workshop',title:'Keeping Mission at the Heart of Every Issue',where:'Kayla Simon & Anne E. Clark · Avalon Breakout Rooms'},
+  {id:'thu-s4f',d:'2026-06-18',s:885,e:960,type:'session',cat:'Workshop',title:'Visualizing the Past: How AI is Shaping Diocesan Storytelling',where:'Chavez, Leon & Clough · Avalon Breakout Rooms'},
+  {id:'thu-br3',d:'2026-06-18',s:960,e:990,type:'break',mine:true,title:'Break in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  {id:'thu-mass',d:'2026-06-18',s:1020,e:null,type:'mass',mine:true,title:'Mass',where:'Avalon Ballroom'},
+  {id:'thu-film',d:'2026-06-18',s:1170,e:null,type:'film',mine:true,focus:true,title:'Film: Debating Statues & Saints',where:'Avalon 24–25 Theater · Paulist Productions',tags:['vid']},
 
-  // FRIDAY
+  // ===== FRIDAY =====
   {id:'fri-pray',d:'2026-06-19',s:420,e:900,type:'info',title:'Prayer Room Open',where:'Avalon 8'},
-  {id:'fri-exh',d:'2026-06-19',s:420,e:840,type:'duty',title:'Exhibit Hall Open: staff HCFM #2',where:'Avalon 15–17 · closes 2 PM · breakfast 7–9',tags:['hc']},
+  {id:'fri-exh',d:'2026-06-19',s:420,e:840,type:'duty',mine:true,title:'Exhibit Hall Open: staff HCFM #2',where:'Avalon 15–17 · closes 2 PM · breakfast 7–9',tags:['hc']},
   {id:'fri-reg',d:'2026-06-19',s:450,e:900,type:'info',title:'Registration Desk Open',where:'2nd Floor, WCC'},
-  {id:'fri-cnewa',d:'2026-06-19',s:450,e:510,type:'meal',title:'CNEWA Breakfast Program',where:'Avalon Ballroom · optional'},
-  {id:'fri-s5',d:'2026-06-19',s:570,e:645,type:'session',title:'Seeing First: Visual Storytelling',where:'Jeffrey Bruno, Photojournalist · Avalon 5–6',tags:['vid'],focus:true,note:'YOUR TOP video/photo session. Seeing the quiet moments, weaving images + words, building a voice. Also: Sacred Heart film 9:30–11:30 (Avalon 24–25).'},
-  {id:'fri-br1',d:'2026-06-19',s:645,e:690,type:'break',title:'Networking Break',where:'Exhibit Hall · booth'},
-  {id:'fri-lunch',d:'2026-06-19',s:690,e:810,type:'meal',title:'St. Francis de Sales Luncheon + Keynote',where:'Kerry Alys Robinson · Avalon Ballroom'},
-  {id:'fri-prize',d:'2026-06-19',s:810,e:840,type:'info',title:'Prize Giveaway in Exhibit Hall',where:'Drawing ~1:45 PM'},
-  {id:'fri-dis',d:'2026-06-19',s:840,e:930,type:'duty',title:'Booth Dismantle: HCFM #2 & FTP #1',where:'Avalon 15–17 · tear down & pack out',tags:['hc'],note:'This is the priority. It blocks the 2:00 film and 2:30 Eastern roundtable.'},
-  {id:'fri-film',d:'2026-06-19',s:840,e:960,type:'film',title:'Film: American Martyr (Stanley Rother)',where:'Avalon 24–25 · narrated by Martin Sheen',tags:['vid']},
-  {id:'fri-s6',d:'2026-06-19',s:870,e:930,type:'session',title:'Region Roundtables (Eastern = HCFM)',where:'Avalon 10–12'},
-  {id:'fri-tr1',d:'2026-06-19',s:960,e:null,type:'transport',title:'Jitney to Memorial Mass',where:'WCC Porte Entrance'},
-  {id:'fri-mem',d:'2026-06-19',s:1020,e:1080,type:'mass',title:'CMA Memorial Mass',where:'St. Nicholas of Tolentine'},
-  {id:'fri-tr2',d:'2026-06-19',s:1110,e:null,type:'transport',title:'Jitney back to Harrah’s',where:'From St. Nicholas of Tolentine'},
-  {id:'fri-rec',d:'2026-06-19',s:1140,e:1200,type:'meal',title:'Awards Reception',where:'Pre-function Area, Avalon Ballroom'},
-  {id:'fri-awards',d:'2026-06-19',s:1200,e:1320,type:'mass',title:'Catholic Media + 60th Gabriel Awards',where:'Avalon Ballroom · business professional'}
+  {id:'fri-cnewa',d:'2026-06-19',s:450,e:510,type:'meal',title:'CNEWA Breakfast & Program',where:'Avalon Ballroom · sponsored by CNEWA'},
+  // Session 5 | Workshops 9:30-10:45
+  {id:'fri-s5a',d:'2026-06-19',s:570,e:645,type:'session',cat:'Workshop',title:'Create an AI Policy for Your Newsroom',where:'Weber, Hargett & O’Driscoll · Avalon Breakout Rooms'},
+  {id:'fri-s5b',d:'2026-06-19',s:570,e:645,type:'session',cat:'Workshop',title:'Synodal Discernment as a Change-Management Framework',where:'Kerting Baldwin & Maria Hayes · Avalon Breakout Rooms'},
+  {id:'fri-s5c',d:'2026-06-19',s:570,e:645,type:'session',mine:true,focus:true,cat:'Workshop',title:'Seeing First: Visual Storytelling in a Noisy World',where:'Jeffrey Bruno, Photojournalist · Avalon 5–6',tags:['vid'],note:'Your top video/photo session. Seeing the quiet moments, weaving images + words, building a voice.'},
+  {id:'fri-s5d',d:'2026-06-19',s:570,e:645,type:'session',cat:'Workshop',title:'Reaching "Cultural Catholics" Through Diocesan Storytelling',where:'Hicks, Carlisle & Slaten · Avalon Breakout Rooms'},
+  {id:'fri-s5e',d:'2026-06-19',s:570,e:645,type:'session',cat:'Workshop',title:'Appeals & Capital Campaigns: 5 Mistakes to Avoid',where:'Smith House team · Avalon Breakout Rooms'},
+  {id:'fri-film1',d:'2026-06-19',s:570,e:690,type:'film',title:'Film: Sacred Heart: His Reign Has No End',where:'Avalon 24–25 Theater',tags:['vid']},
+  {id:'fri-br1',d:'2026-06-19',s:645,e:690,type:'break',mine:true,title:'Networking Break in the Exhibit Hall',where:'Be at the booth',tags:['hc']},
+  {id:'fri-lunch',d:'2026-06-19',s:690,e:810,type:'meal',mine:true,title:'St. Francis de Sales Award Luncheon + Keynote',where:'Kerry Alys Robinson, Catholic Charities USA · Avalon Ballroom'},
+  {id:'fri-prize',d:'2026-06-19',s:810,e:840,type:'info',mine:true,title:'Prize Giveaway in the Exhibit Hall',where:'Drawing ~1:45 PM · Be at the booth',tags:['hc']},
+  {id:'fri-dis',d:'2026-06-19',s:840,e:930,type:'duty',mine:true,title:'Booth Dismantle: HCFM #2 & FTP #1',where:'Avalon 15–17 · tear down & pack out',tags:['hc'],note:'This is the priority. It overlaps the 2:00 film and the 2:30 Eastern roundtable.'},
+  {id:'fri-film2',d:'2026-06-19',s:840,e:960,type:'film',title:'Film: American Martyr (Stanley Rother)',where:'Avalon 24–25 · narrated by Martin Sheen',tags:['vid']},
+  // Session 6 | Region Roundtables 2:30-3:30
+  {id:'fri-s6a',d:'2026-06-19',s:870,e:930,type:'session',cat:'Region',title:'Western Region Roundtable',where:'Pablo Kay, Angelus · Avalon Breakout Rooms'},
+  {id:'fri-s6b',d:'2026-06-19',s:870,e:930,type:'session',cat:'Region',title:'Midwest Region Roundtable',where:'Michael Stechschulte, Detroit Catholic · Avalon Breakout Rooms'},
+  {id:'fri-s6c',d:'2026-06-19',s:870,e:930,type:'session',mine:true,cat:'Region',title:'Eastern Region Roundtable (HCFM region)',where:'Carol Zimmermann, NCR · Avalon Breakout Rooms',note:'Your region. Note: overlaps the booth dismantle, which is the priority.'},
+  {id:'fri-s6d',d:'2026-06-19',s:870,e:930,type:'session',cat:'Region',title:'Southern Region Roundtable',where:'James Ramos, Texas Catholic Herald · Avalon Breakout Rooms'},
+  {id:'fri-s6e',d:'2026-06-19',s:870,e:930,type:'session',cat:'Region',title:'Canadian Region Roundtable',where:'Paul Schratz, B.C. Catholic · Avalon Breakout Rooms'},
+  {id:'fri-tr1',d:'2026-06-19',s:960,e:null,type:'transport',mine:true,title:'Jitney to Memorial Mass',where:'Depart WCC Porte Entrance'},
+  {id:'fri-mem',d:'2026-06-19',s:1020,e:1080,type:'mass',mine:true,title:'CMA Memorial Mass',where:'St. Nicholas of Tolentine, 1409 Pacific Ave'},
+  {id:'fri-tr2',d:'2026-06-19',s:1110,e:null,type:'transport',mine:true,title:'Jitney back to Harrah’s',where:'Depart St. Nicholas of Tolentine'},
+  {id:'fri-rec',d:'2026-06-19',s:1140,e:1200,type:'meal',mine:true,title:'Catholic Media + 60th Gabriel Awards Reception',where:'Pre-function Area, Avalon Ballroom'},
+  {id:'fri-awards',d:'2026-06-19',s:1200,e:1320,type:'meal',mine:true,focus:true,title:'Catholic Media + 60th Annual Gabriel Awards',where:'Avalon Ballroom · business professional',tags:['br']}
 ];
 var TAGLABEL={an:['ANALYST','c-an'],vid:['VIDEO','c-vid'],br:['BRAND','c-br'],hc:['HCFM/FTP','c-hc']};
 var TYPEPRI={duty:6,session:5,meal:4,mass:4,film:4,transport:3,break:2,info:1};
@@ -397,6 +447,7 @@ function acNow(){
 function pad(n){return (n<10?'0':'')+n}
 function fmt(min){var h=Math.floor(min/60),m=min%60,ap=h<12?'AM':'PM',hh=h%12;if(hh===0)hh=12;return hh+':'+pad(m)+' '+ap}
 function range(s,e){return fmt(s)+(e!=null?' – '+fmt(e):'')}
+function hourLabel(H){var hh=H%12;if(hh===0)hh=12;return hh+' '+(H<12||H>=24?'AM':'PM')}
 function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
 /* ---------- STATE ---------- */
@@ -408,15 +459,13 @@ function taskDone(eid,tid){return rawDone(eid+'#'+tid)}
 function tasksDoneCount(e){var n=0;e.tasks.forEach(function(t){if(taskDone(e.id,t.id))n++});return n}
 function autoDone(e){var ac=acNow();if(ac.date>e.d)return true;if(ac.date<e.d)return false;var en=(e.e!=null?e.e:e.s+20);return ac.mins>=en+30}
 function isDone(e){if(autoDone(e))return true;return hasTasks(e)?tasksDoneCount(e)===e.tasks.length:rawDone(e.id)}
-function toggleDone(e){
-  if(hasTasks(e)){var all=tasksDoneCount(e)===e.tasks.length;e.tasks.forEach(function(t){setRawDone(e.id+'#'+t.id,!all)})}
-  else setRawDone(e.id,!rawDone(e.id));
-}
 function haptic(on){if(navigator.vibrate){try{navigator.vibrate(on?16:0)}catch(e){}}}
 
 var selDay=null;
+var view='all';
+try{var sv=localStorage.getItem(KEY+'view');if(sv==='mine'||sv==='all')view=sv;}catch(e){}
 var state={boundaryId:null,viewingToday:false};
-var RC=2*Math.PI*18; // ring circumference
+var RC=2*Math.PI*18;
 
 /* ---------- BUILD ---------- */
 function dayById(id){return DAYS.find(function(x){return x.id===id})}
@@ -424,6 +473,7 @@ function dayEvents(dayId){
   var D=dayById(dayId);
   return EV.filter(function(e){return e.d===D.date}).sort(function(a,b){return a.s-b.s||((a.e||a.s)-(b.e||b.s))});
 }
+function viewEvents(dayId){var a=dayEvents(dayId);return view==='mine'?a.filter(function(e){return e.mine}):a}
 function buildTabs(){
   var ac=acNow();var nav=document.getElementById('tabs');nav.innerHTML='';
   DAYS.forEach(function(D){
@@ -432,6 +482,15 @@ function buildTabs(){
     a.innerHTML='<b>'+parts[0].slice(0,3)+'</b><small>'+parts[1].replace('June ','Jun ')+'</small>';
     a.onclick=function(){selDay=D.id;render();window.scrollTo({top:0,behavior:'smooth'})};
     nav.appendChild(a);
+  });
+}
+function buildViewTog(){
+  var all=dayEvents(selDay),mineN=all.filter(function(e){return e.mine}).length,allN=all.length;
+  var t=document.getElementById('viewTog');
+  t.innerHTML='<button class="'+(view==='mine'?'on mine':'')+'" data-v="mine">My plan<span class="c">'+mineN+'</span></button>'
+    +'<button class="'+(view==='all'?'on':'')+'" data-v="all">Full schedule<span class="c">'+allN+'</span></button>';
+  Array.prototype.forEach.call(t.querySelectorAll('button'),function(b){
+    b.onclick=function(){var v=b.getAttribute('data-v');if(v===view)return;view=v;try{localStorage.setItem(KEY+'view',v)}catch(e){}render()};
   });
 }
 function subsHTML(e){
@@ -448,12 +507,14 @@ function subsHTML(e){
 }
 function cardHTML(e){
   var done=isDone(e);
-  var chips=(e.focus?'<span class="chip c-star">★ FOR YOU</span>':'')
-    +(e.tags||[]).map(function(t){return '<span class="chip '+TAGLABEL[t][1]+'">'+TAGLABEL[t][0]+'</span>'}).join('');
+  var personal=e.focus?'<span class="chip c-star">★ FOR YOU</span>':(e.mine?'<span class="chip c-mine">MINE</span>':'');
+  var catc=(e.cat&&!e.focus)?'<span class="chip c-cat">'+esc(e.cat).toUpperCase()+'</span>':'';
+  var tags=(e.tags||[]).map(function(t){return '<span class="chip '+TAGLABEL[t][1]+'">'+TAGLABEL[t][0]+'</span>'}).join('');
+  var chips=personal+catc+tags;
   var note=e.note?'<details class="note"><summary></summary><div class="nbody">'+esc(e.note)+'</div></details>':'';
   var subs=hasTasks(e)?subsHTML(e):'';
   var chkExtra=hasTasks(e)?(' hastasks" style="--p:'+Math.round(tasksDoneCount(e)/e.tasks.length*100)):'';
-  return '<div class="ev t-'+e.type+(e.focus?' focus':'')+(done?' done':'')+'" id="'+e.id+'" data-id="'+e.id+'">'
+  return '<div class="ev t-'+e.type+(e.mine?' mine':'')+(e.focus?' focus':'')+(done?' done':'')+'" id="'+e.id+'" data-id="'+e.id+'">'
     +'<div class="stripe"></div>'
     +'<button class="chk'+chkExtra+'" data-id="'+e.id+'" aria-label="Mark done"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></svg></button>'
     +'<div class="evmain">'
@@ -464,10 +525,17 @@ function cardHTML(e){
     +subs+note
     +'</div></div>';
 }
+function cardNode(e){var w=document.createElement('div');w.innerHTML=cardHTML(e);return w.firstChild}
 function nowLineNode(ac){
   var d=document.createElement('div');d.className='nowline';d.id='nowline';
   d.innerHTML='<span class="nldot"></span><span class="nltext num">NOW · '+fmt(ac.mins)+'</span><span class="nlrule"></span>';
   return d;
+}
+function hourGroup(H,active){
+  var g=document.createElement('div');g.className='hourgrp';
+  g.innerHTML='<div class="rail'+(active?' active':'')+'"><div class="hr num">'+hourLabel(H)+'</div><div class="dot"></div></div>';
+  var col=document.createElement('div');col.className='col';g.appendChild(col);
+  g._col=col;return g;
 }
 
 function render(){
@@ -475,11 +543,11 @@ function render(){
   state.viewingToday=(D.date===ac.date);
   document.getElementById('dayhead').innerHTML='<h2>'+D.name+'</h2><span>'+D.sub+'</span>';
   document.getElementById('hdate').textContent=D.name;
-  buildTabs();
+  buildTabs();buildViewTog();
 
-  var evs=dayEvents(selDay);
-  // FOR YOU strip
-  var foc=evs.filter(function(e){return e.focus});
+  var evs=viewEvents(selDay);
+  // FOR YOU strip (focus picks, always from full set)
+  var foc=dayEvents(selDay).filter(function(e){return e.focus});
   var fw=document.getElementById('focusWrap');
   if(foc.length){
     fw.style.display='block';
@@ -488,32 +556,32 @@ function render(){
     }).join('');
   } else fw.style.display='none';
 
-  // Timeline
   var tl=document.getElementById('timeline');tl.innerHTML='';
-  var lastHour=null,col=null,nowInserted=false;
-  state.boundaryId=null;
-  evs.forEach(function(e){
-    var h=Math.floor(e.s/60);
-    if(h!==lastHour){
-      lastHour=h;
-      var hl=(h%12===0?12:h%12)+' '+(h<12?'AM':'PM');
-      var g=document.createElement('div');g.className='hourgrp';
-      g.innerHTML='<div class="rail"><div class="hr num">'+hl+'</div><div class="dot"></div></div>';
-      col=document.createElement('div');col.className='col';
-      g.appendChild(col);tl.appendChild(g);
-    }
-    if(state.viewingToday && !nowInserted && e.s>ac.mins){
-      col.appendChild(nowLineNode(ac));nowInserted=true;state.boundaryId=e.id;
-    }
-    var wrap=document.createElement('div');wrap.innerHTML=cardHTML(e);
-    col.appendChild(wrap.firstChild);
-  });
-  if(state.viewingToday && !nowInserted){
-    if(col)col.appendChild(nowLineNode(ac));
-    state.boundaryId='__end__';
-  }
-  if(!state.viewingToday)state.boundaryId=null;
+  if(!evs.length){tl.innerHTML='<div class="empty">No items in this view for '+D.name.split(',')[0]+'.</div>';state.boundaryId=null;tick();return;}
 
+  var byHour={};evs.forEach(function(e){var h=Math.floor(e.s/60);(byHour[h]=byHour[h]||[]).push(e)});
+  var hrs=Object.keys(byHour).map(Number);
+  var startH=Math.min.apply(null,hrs),endH=Math.max.apply(null,hrs);
+  var nowH=Math.floor(ac.mins/60);
+  if(state.viewingToday){startH=Math.min(startH,nowH);endH=Math.max(endH,nowH)}
+  var firstFuture=null;evs.forEach(function(e){if(e.s>ac.mins&&(firstFuture===null||e.s<firstFuture.s))firstFuture=e});
+  var nowInserted=false;
+  for(var H=startH;H<=endH;H++){
+    var isNowHour=(state.viewingToday&&H===nowH);
+    var g=hourGroup(H,isNowHour),col=g._col;
+    var list=(byHour[H]||[]).slice().sort(function(a,b){return a.s-b.s||((a.e||a.s)-(b.e||b.s))});
+    if(isNowHour&&!nowInserted){
+      list.forEach(function(e){if(e.s<=ac.mins)col.appendChild(cardNode(e))});
+      col.appendChild(nowLineNode(ac));nowInserted=true;
+      list.forEach(function(e){if(e.s>ac.mins)col.appendChild(cardNode(e))});
+    } else if(list.length){
+      list.forEach(function(e){col.appendChild(cardNode(e))});
+    } else {
+      var o=document.createElement('div');o.className='openhr';col.appendChild(o);
+    }
+    tl.appendChild(g);
+  }
+  state.boundaryId=state.viewingToday?(nowH+'|'+(firstFuture?firstFuture.id:'end')):null;
   tick();
 }
 
@@ -540,21 +608,23 @@ function onTimelineClick(ev){
   var sub=ev.target.closest('.sub');
   if(sub){
     var eid=sub.getAttribute('data-eid'),tid=sub.getAttribute('data-tid');
-    setRawDone(eid+'#'+tid,!taskDone(eid,tid));
-    refreshCard(EVById[eid]);updateProgress();haptic(taskDone(eid,tid));
+    var nv=!taskDone(eid,tid);setRawDone(eid+'#'+tid,nv);
+    refreshCard(EVById[eid]);updateProgress();haptic(nv);
     return;
   }
   var chk=ev.target.closest('.chk');
   if(chk){
     var e=EVById[chk.getAttribute('data-id')];
-    toggleDone(e);refreshCard(e);updateProgress();haptic(isDone(e));
+    if(hasTasks(e)){var all=tasksDoneCount(e)===e.tasks.length;e.tasks.forEach(function(t){setRawDone(e.id+'#'+t.id,!all)})}
+    else setRawDone(e.id,!rawDone(e.id));
+    refreshCard(e);updateProgress();haptic(isDone(e));
     return;
   }
 }
 
 /* ---------- PROGRESS ---------- */
 function updateProgress(){
-  var evs=dayEvents(selDay);
+  var evs=viewEvents(selDay);
   var done=evs.filter(function(e){return isDone(e)}).length;
   var pct=evs.length?Math.round(done/evs.length*100):0;
   document.getElementById('progCount').textContent=done+' / '+evs.length;
@@ -562,13 +632,14 @@ function updateProgress(){
   document.getElementById('ringPct').textContent=pct+'%';
   document.getElementById('ringFg').style.strokeDashoffset=(RC*(1-pct/100)).toFixed(1);
   var ac=acNow(),D=dayById(selDay);
-  document.getElementById('progLabel').textContent=(D.date===ac.date?'Today’s progress':D.name.split(',')[0]+' progress');
+  var lbl=(D.date===ac.date?'Today’s progress':D.name.split(',')[0]+' progress');
+  document.getElementById('progLabel').textContent=(view==='mine'?'My plan · ':'')+lbl;
 }
 
 /* ---------- LIVE TICK ---------- */
 function pickCurrent(active){
   return active.slice().sort(function(a,b){
-    var pa=TYPEPRI[a.type]+(a.focus?10:0),pb=TYPEPRI[b.type]+(b.focus?10:0);
+    var pa=TYPEPRI[a.type]+(a.focus?10:0)+(a.mine?4:0),pb=TYPEPRI[b.type]+(b.focus?10:0)+(b.mine?4:0);
     if(pb!==pa)return pb-pa;
     if(b.s!==a.s)return b.s-a.s;
     return ((a.e||a.s+20)-a.s)-((b.e||b.s+20)-b.s);
@@ -582,14 +653,15 @@ function tick(){
   var D=dayById(selDay);
   var viewingToday=(D.date===ac.date);
   var todayId=(DAYS.find(function(x){return x.date===ac.date})||{}).id;
-  var evs=dayEvents(selDay);
+  var evs=viewEvents(selDay);
 
   if(viewingToday){
-    var fut0=evs.filter(function(e){return e.s>ac.mins});
-    var desired=fut0.length?fut0[0].id:'__end__';
+    var nowH=Math.floor(ac.mins/60);
+    var ff=null;evs.forEach(function(e){if(e.s>ac.mins&&(ff===null||e.s<ff.s))ff=e});
+    var desired=nowH+'|'+(ff?ff.id:'end');
     if(desired!==state.boundaryId){render();return;}
     var nl=document.getElementById('nowline');
-    if(nl){var t=nl.querySelector('.nltext');if(t)t.textContent='NOW · '+fmt(ac.mins);}
+    if(nl){var t=nl.querySelector('.nltext');if(t)t.textContent='NOW · '+fmt(ac.mins)}
   }
 
   var active=[];
@@ -615,7 +687,7 @@ function tick(){
       active.forEach(function(e){
         var card=document.getElementById(e.id),bdg=document.getElementById('bdg-'+e.id);
         if(e===current){card.classList.add('nowev');if(bdg){bdg.className='badge b-now';bdg.style.display='inline-block';bdg.textContent='NOW'}
-          var rail=card.closest('.hourgrp');if(rail){var rr=rail.querySelector('.rail');if(rr)rr.classList.add('active')}}
+          var grp=card.closest('.hourgrp');if(grp){var rr=grp.querySelector('.rail');if(rr)rr.classList.add('active')}}
         else{card.classList.add('active');if(bdg){bdg.className='badge b-live';bdg.style.display='inline-block';bdg.textContent='LIVE'}}
       });
     }
@@ -658,26 +730,21 @@ function tick(){
       document.getElementById('cd').textContent=(hh>0?hh+'h ':'')+pad(mm)+'m '+pad(ss)+'s';
       document.getElementById('nextTitle').textContent=next.title;
       document.getElementById('nextWhere').textContent=fmt(next.s)+' · '+next.where;
-    } else {
-      nw.style.display='none';
-    }
+    } else { nw.style.display='none' }
   } else {
     hero.classList.add('open');hp.style.display='none';
     document.getElementById('heroLab').textContent=(todayId?'Viewing '+D.name.split(',')[0]:'Conference preview');
-    var ff=evs.find(function(e){return e.focus})||evs[0];
-    document.getElementById('nowTitle').textContent=ff?ff.title:'No items';
-    document.getElementById('nowMeta').textContent=ff?(fmt(ff.s)+' · '+ff.where):'';
+    var firstFocus=evs.find(function(e){return e.focus})||evs[0];
+    document.getElementById('nowTitle').textContent=firstFocus?firstFocus.title:'No items';
+    document.getElementById('nowMeta').textContent=firstFocus?(fmt(firstFocus.s)+' · '+firstFocus.where):'';
     document.getElementById('nextWrap').style.display='none';
   }
 
   var nb=document.getElementById('nowBtn');
   if(viewingToday){
     var target=document.getElementById('nowline')||document.querySelector('.ev.nowev');
-    if(target){
-      var r=target.getBoundingClientRect();
-      var off=(r.top<70||r.bottom>window.innerHeight-70);
-      nb.classList.toggle('show',off);
-    } else nb.classList.remove('show');
+    if(target){var r=target.getBoundingClientRect();nb.classList.toggle('show',(r.top<70||r.bottom>window.innerHeight-70))}
+    else nb.classList.remove('show');
   } else nb.classList.remove('show');
 }
 
@@ -693,7 +760,7 @@ function jumpToNow(){
     var c=ev.target.closest('.fchip');if(c){var t=document.getElementById(c.getAttribute('data-go'));if(t)t.scrollIntoView({behavior:'smooth',block:'center'})}
   });
   document.getElementById('resetBtn').onclick=function(){
-    dayEvents(selDay).forEach(function(e){
+    viewEvents(selDay).forEach(function(e){
       if(hasTasks(e))e.tasks.forEach(function(t){setRawDone(e.id+'#'+t.id,false)});
       else setRawDone(e.id,false);
     });
