@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMC 2026 — Emmy's Plan</title>
+<style>
+  :root{
+    --accent:#1d4e74; --accent2:#0e3550; --ink:#16263a; --muted:#5b6b7d;
+    --line:#e3e9f0; --card:#ffffff;
+    --analyst:#0a7d52; --analystbg:#e6f5ee;
+    --video:#9a3412; --videobg:#fdeee4;
+    --brand:#5b3a9e; --brandbg:#efe9fb;
+    --hcfm:#b4232a; --hcfmbg:#fbe8e9;
+    --you:#b8860b; --youbg:#fbf3df;
+    --now:#0a7d52;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#eef2f6;color:var(--ink);line-height:1.45;-webkit-text-size-adjust:100%}
+  .wrap{max-width:720px;margin:0 auto;padding:0 0 70px}
+
+  header.top{background:linear-gradient(160deg,var(--accent2),var(--accent));color:#fff;padding:20px 18px 16px;border-radius:0 0 18px 18px}
+  header.top h1{margin:0 0 3px;font-size:20px}
+  header.top p{margin:2px 0;font-size:12.5px;opacity:.92}
+  header.top .note{font-size:11.5px;opacity:.82;margin-top:9px;border-top:1px solid rgba(255,255,255,.2);padding-top:8px}
+
+  #nowbar{margin:12px 14px 0;border-radius:12px;padding:11px 13px;background:#0a3a28;color:#eafff5;
+    border:1px solid #15623f;display:none}
+  #nowbar .lab{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:#7fe3b6;font-weight:700}
+  #nowbar .ev{font-size:14px;font-weight:650;margin-top:2px}
+  #nowbar .mt{font-size:12px;opacity:.9;margin-top:3px}
+  #nowbar .nx{margin-top:8px;border-top:1px solid #15623f;padding-top:7px}
+
+  nav.days{position:sticky;top:0;z-index:30;background:#0f1c2e;display:flex;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+  nav.days a{flex:1;text-align:center;color:#cdd9e6;text-decoration:none;font-size:11.5px;font-weight:600;padding:9px 2px;border-bottom:3px solid transparent}
+  nav.days a b{display:block;font-size:15px;color:#fff;line-height:1.2}
+  nav.days a.active{border-bottom-color:#7fe3b6;background:#16263a}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:14px;padding:12px 14px}
+  details.card{padding:0}
+  details.card>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:650;font-size:14px;color:var(--accent2);display:flex;justify-content:space-between;align-items:center}
+  details.card>summary::-webkit-details-marker{display:none}
+  details.card>summary::after{content:"+";color:var(--muted);font-size:18px;font-weight:400}
+  details.card[open]>summary::after{content:"\2013"}
+  details.card .body{padding:0 14px 12px}
+  .card h3{margin:0 0 7px;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+  .card p{margin:5px 0;font-size:12.7px}
+  .card b{color:var(--accent2)}
+
+  section.day{padding:4px 14px}
+  .dayhead{margin:20px 2px 4px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+  .dayhead h2{margin:0;font-size:18px;color:var(--accent2)}
+  .dayhead span{font-size:12.5px;color:var(--muted)}
+
+  .plan{background:var(--youbg);border:1px solid #ecd99e;border-left:4px solid var(--you);border-radius:12px;padding:11px 13px;margin:8px 2px 14px}
+  .plan h3{margin:0 0 8px;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--you)}
+  .plan .step{display:flex;gap:10px;margin:7px 0;font-size:13px}
+  .plan .step .t{flex:0 0 78px;font-weight:700;color:var(--accent2);font-size:12px}
+  .plan .step .d{flex:1}
+  .plan .step .d b{color:var(--ink)}
+  .plan .micro{font-size:11.5px;color:#6b5a1f;font-style:italic}
+
+  .seclabel{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin:14px 2px 6px}
+
+  .item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin:0 2px 8px}
+  .item .time{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.2px}
+  .item .ttl{font-size:14.5px;font-weight:650;margin:2px 0 2px}
+  .item .where{font-size:12.3px;color:var(--muted)}
+  .item.pri{border-left:4px solid var(--you);background:#fffdf6}
+  .item.hcfm{border-left:4px solid var(--hcfm);background:#fffafa}
+  .item.eve{background:#f4f7fa}
+  .item.nowev{box-shadow:0 0 0 2px var(--now);}
+  .nowtag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--now);padding:1px 6px;border-radius:10px;margin-left:6px;vertical-align:middle}
+
+  .tags{margin:6px 0 0;display:flex;flex-wrap:wrap;gap:5px}
+  .tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.3px}
+  .t-an{color:var(--analyst);background:var(--analystbg)}
+  .t-vid{color:var(--video);background:var(--videobg)}
+  .t-br{color:var(--brand);background:var(--brandbg)}
+  .t-hc{color:var(--hcfm);background:var(--hcfmbg)}
+
+  details.sess{margin:5px 0 0;border-top:1px dashed var(--line);padding-top:6px}
+  details.sess>summary{list-style:none;cursor:pointer;font-size:12.3px;color:var(--accent);font-weight:600}
+  details.sess>summary::-webkit-details-marker{display:none}
+  details.sess>summary::before{content:"Details \25B8 ";color:var(--muted);font-weight:400}
+  details.sess[open]>summary::before{content:"Hide \25BE ";}
+  details.sess .ab{font-size:12.2px;color:#42566b;margin:6px 0 2px}
+  details.sess .opt{font-size:11.8px;color:var(--muted);margin-top:7px}
+  details.sess .opt b{color:var(--ink)}
+
+  .conflict{font-size:11.5px;color:var(--hcfm);font-weight:600;margin-top:5px}
+  a.back{display:inline-block;font-size:12px;color:var(--accent);text-decoration:none;margin:2px 2px 12px}
+  .verify{background:#fdeef0;border:1px solid #f2c9cf;border-radius:12px;padding:11px 13px;margin:14px}
+  .verify h3{margin:0 0 6px;font-size:12.5px;color:var(--hcfm)}
+  .verify p{margin:4px 0;font-size:12px;color:#7a2128}
+  footer{text-align:center;font-size:11px;color:var(--muted);padding:16px 14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Catholic Media Conference 2026</h1>
+  <p>June 16 to 19 &middot; Harrah's Resort Atlantic City &middot; all times Eastern</p>
+  <p>Sessions in the Waterfront Conference Center (WCC), Avalon rooms, 2nd floor</p>
+  <p class="note">Built for Emmy. Each day opens with YOUR PLAN, the decision already made for every time slot. Below it sits the full program with every session detail one tap away. Yellow = worth your time. Red = HCFM or FTP duty.</p>
+</header>
+
+<div id="nowbar">
+  <div class="lab">Happening now</div>
+  <div class="ev" id="nowEv">-</div>
+  <div class="mt" id="nowMt"></div>
+  <div class="nx" id="nextWrap"><span class="lab">Next up</span><div class="ev" id="nextEv" style="font-size:13px"></div><div class="mt" id="nextMt"></div></div>
+</div>
+
+<nav class="days">
+  <a href="#tue" data-d="2026-06-16"><b>Tue</b>Jun 16</a>
+  <a href="#wed" data-d="2026-06-17"><b>Wed</b>Jun 17</a>
+  <a href="#thu" data-d="2026-06-18"><b>Thu</b>Jun 18</a>
+  <a href="#fri" data-d="2026-06-19"><b>Fri</b>Jun 19</a>
+</nav>
+
+<div class="card" style="border-left:4px solid var(--accent)">
+  <h3>Your logistics, fixed facts</h3>
+  <p><b>Booths:</b> HCFM #2, Family Theater #1. Avalon 15-17 Exhibit Hall, 2nd floor WCC.</p>
+  <p><b>Setup:</b> Tue 8:00 AM to 4:00 PM, fully installed by 4:00. You and Allison cover it; Chris and Kate land around 7 PM.</p>
+  <p><b>Exhibit hours you staff:</b> Wed 7:00-4:30, Thu 7:00-4:30, Fri 7:00-2:00. <b>Dismantle:</b> Fri 2:00-3:30.</p>
+  <p><b>Your room:</b> Waterfront Premium King, check out Sat Jun 20. Free parking, one car per night.</p>
+</div>
+
+
+
+<details class="card">
+  <summary>Practical info: dress, Wi-Fi, photo game, more</summary>
+  <div class="body">
+    <p><b>Dress:</b> Business casual all week. Meeting rooms run cold, bring a light layer. Friday awards night is business professional.</p>
+    <p><b>Registration desk:</b> 2nd floor WCC. Tue 1-6, Wed 7:30-7, Thu 7:30-5, Fri 7:30-3. Get the Wi-Fi password here.</p>
+    <p><b>Wi-Fi:</b> Free in rooms and lobby; limited free Wi-Fi in the conference area. Hotel guests sign in with last name and room number.</p>
+    <p><b>Photo game (#CMCAC):</b> post daily for a chance to win. Wed theme: you with CMC friends. Thu: you with a favorite session or exhibit. Fri: you in Atlantic City.</p>
+    <p><b>Service project:</b> booths 4 &amp; 5 in the Exhibit Hall, pack backpacks for South Jersey students and assemble Blessing Bags with the Franciscan Sisters of the Renewal.</p>
+    <p><b>Bring to the booth:</b> your newspaper and magazine samples for the shared publications table; charged phone and battery pack.</p>
+  </div>
+</details>
+
+<!-- =============== TUESDAY =============== -->
+<section class="day" id="tue">
+  <div class="dayhead"><h2>Tuesday, June 16</h2><span>Setup, Opening Mass, FTP Boardwalk night</span></div>
+
+  <div class="plan">
+    <h3>Your plan</h3>
+    <div class="step"><div class="t">8:00 AM</div><div class="d">At <b>Avalon 15-17</b>. Build FTP booth #1 and HCFM booth #2 with Allison. Done by 4:00 PM.</div></div>
+    <div class="step"><div class="t">1-6 PM</div><div class="d">When you get a gap, grab your badge at <b>Registration, 2nd floor WCC</b>, and the Wi-Fi password. Drop your sample publications at the shared table.</div></div>
+    <div class="step"><div class="t">~4:30 PM</div><div class="d">Back to the room, freshen up. Tonight is casual, on the beach.</div></div>
+    <div class="step"><div class="t">5:00 PM</div><div class="d">Jitney to Mass from the <b>WCC Porte Entrance</b> (across from Wildwood 12).</div></div>
+    <div class="step"><div class="t">6:00 PM</div><div class="d">Opening Mass, St. Nicholas of Tolentine.</div></div>
+    <div class="step"><div class="t">7-10 PM</div><div class="d"><b>FTP Welcome on the Boardwalk</b> at LandShark. This is the FTP dinner. Be present and visible for FTP; this is our sponsorship. Bring your camera.</div></div>
+    <div class="step"><div class="t">9-10 PM</div><div class="d">Jitneys back from the Resorts Casino Hotel curb, just off the boardwalk.</div></div>
+    <div class="micro">You listed the dinner at 7:30; the official start is 7:00.</div>
+  </div>
+
+  <div class="seclabel">Full program</div>
+
+  <div class="item hcfm" data-min="480" data-end="960">
+    <div class="time">8:00 AM - 4:00 PM</div>
+    <div class="ttl">Exhibitor Setup (build HCFM #2, FTP #1)</div>
+    <div class="where">Avalon 15-17 Exhibit Hall, WCC. All exhibits installed by 4:00 PM.</div>
+    <div class="tags"><span class="tag t-hc">HCFM / FTP</span></div>
+  </div>
+  <div class="item" data-min="600" data-end="900">
+    <div class="time">10:00 AM - 3:00 PM</div>
+    <div class="ttl">CMA Board of Directors Meeting</div>
+    <div class="where">Avalon 24-25. Closed meeting, awareness only.</div>
+  </div>
+  <div class="item" data-min="780" data-end="1080">
+    <div class="time">1:00 - 6:00 PM</div>
+    <div class="ttl">Registration Desk Open</div>
+    <div class="where">Second Floor, WCC. Badge and Wi-Fi password.</div>
+  </div>
+  <div class="item" data-min="1020">
+    <div class="time">5:00 PM</div>
+    <div class="ttl">Transportation to Opening Mass</div>
+    <div class="where">Jitneys depart WCC Porte Entrance (across from Wildwood 12).</div>
+  </div>
+  <div class="item" data-min="1080">
+    <div class="time">6:00 PM</div>
+    <div class="ttl">Opening Mass</div>
+    <div class="where">St. Nicholas of Tolentine Church, 1409 Pacific Ave. All welcome.</div>
+  </div>
+  <div class="item hcfm eve" data-min="1140" data-end="1320">
+    <div class="time">7:00 - 10:00 PM</div>
+    <div class="ttl">Welcome and Networking on the Boardwalk</div>
+    <div class="where">LandShark Bar &amp; Grill, 1133 Boardwalk. Sponsored by Family Theater Productions. Dinner, music, networking on the beach. Separately ticketed.</div>
+    <div class="tags"><span class="tag t-hc">HCFM / FTP</span></div>
+  </div>
+  <div class="item eve" data-min="1260" data-end="1320">
+    <div class="time">9:00 - 10:00 PM</div>
+    <div class="ttl">Transportation back to Harrah's</div>
+    <div class="where">Jitneys at the Resorts Casino Hotel curb, just off the boardwalk.</div>
+  </div>
+  <a class="back" href="#tue">Top</a>
+</section>
+
+<!-- =============== WEDNESDAY =============== -->
+<section class="day" id="wed">
+  <div class="dayhead"><h2>Wednesday, June 17</h2><span>Master Camps, AI keynote, roundtables</span></div>
+
+  <div class="plan">
+    <h3>Your plan</h3>
+    <div class="step"><div class="t">7:00 AM</div><div class="d">Open the booth with Allison, grab breakfast in the hall. Agree now who covers which session blocks today.</div></div>
+    <div class="step"><div class="t">9-11 AM</div><div class="d"><b>Master Camp: From Mission to Metrics</b> (Avalon 5-6). Your analyst pick. Allison covers the booth. If you would rather go hands-on with AI tools, switch to Taylor Black in Avalon 10-12 and bring a laptop.</div></div>
+    <div class="step"><div class="t">11:30-1:00</div><div class="d"><b>Opening Luncheon and AI keynote</b> (Avalon Ballroom). Go.</div></div>
+    <div class="step"><div class="t">2:00-3:15</div><div class="d"><b>Fr. Guffey, Catholic Storytelling</b> (Avalon 2-3). It is FTP and it is your storytelling lane. If you want pure analytics instead, the Digital Media Roundtable is in Avalon 5-6.</div></div>
+    <div class="step"><div class="t">5:00 PM</div><div class="d">Mass, Avalon Ballroom.</div></div>
+    <div class="micro">Post your #CMCAC photo: you with CMC friends.</div>
+  </div>
+
+  <div class="seclabel">Full program</div>
+
+  <div class="item" data-min="420" data-end="1020"><div class="time">7:00 AM - 5:00 PM</div><div class="ttl">Prayer Room Open</div><div class="where">Avalon 8</div></div>
+  <div class="item hcfm" data-min="420" data-end="990"><div class="time">7:00 AM - 4:30 PM</div><div class="ttl">Exhibit Hall Open (staff HCFM #2)</div><div class="where">Avalon 15-17. Coffee and grab-and-go breakfast 7:00-8:30.</div><div class="tags"><span class="tag t-hc">HCFM / FTP</span></div></div>
+  <div class="item" data-min="450" data-end="1140"><div class="time">7:30 AM - 7:00 PM</div><div class="ttl">Registration Desk Open</div><div class="where">Second Floor, WCC</div></div>
+
+  <div class="item pri" data-min="540" data-end="660">
+    <div class="time">9:00 - 11:00 AM &middot; Session 1, Master Camps</div>
+    <div class="ttl">From Mission to Metrics: Digital Strategy for Growth and Giving</div>
+    <div class="where">Chris Baker, Chris Baker Multimedia &middot; Avalon 5-6</div>
+    <div class="tags"><span class="tag t-an">ANALYST</span></div>
+    <details class="sess"><summary>session detail and the other three Master Camps</summary>
+      <div class="ab">Real-world strategy for balancing organic and paid, what actually drives engagement and giving, and how to measure success past vanity metrics. You leave with a framework and tools to make data-informed decisions. This is the closest fit to your role.</div>
+      <div class="opt"><b>Also 9-11 AM:</b><br>Hands on the Tools: From Friction to Flow (Taylor Black, Leonum Institute for AI at CUA, Avalon 10-12). Hands-on AI; build system prompts that hold your org's voice, turn one announcement into multi-platform content, bring a laptop and a task to simplify. Strong brand and analyst crossover.<br>Why Good Branding Matters in Catholic Ministry (Matthew Haas, Syndicate Strategies, Avalon 20-21). Build a simple brand guide, avoid common missteps, use AI responsibly. Brand pick.<br>Pause, Pray, Be (Mary DeTurris Poust, Avalon 2-3). A mini-retreat.</div>
+    </details>
+    <div class="conflict">Overlaps booth hours. Allison covers.</div>
+  </div>
+
+  <div class="item" data-min="660" data-end="690"><div class="time">11:00 - 11:30 AM</div><div class="ttl">Networking Break in the Exhibit Hall</div><div class="where">Be at the booth.</div></div>
+
+  <div class="item pri" data-min="690" data-end="780">
+    <div class="time">11:30 AM - 1:00 PM</div>
+    <div class="ttl">Opening Luncheon and Keynote: AI and the Future of Catholic Communication</div>
+    <div class="where">Taylor Black, Microsoft &amp; Catholic University of America &middot; Avalon Ballroom</div>
+    <div class="tags"><span class="tag t-an">ANALYST</span><span class="tag t-br">BRAND</span></div>
+  </div>
+
+  <div class="item" data-min="780" data-end="840"><div class="time">1:00 - 2:00 PM</div><div class="ttl">Dessert in the Exhibit Hall</div><div class="where">Booth.</div></div>
+
+  <div class="item pri" data-min="840" data-end="915">
+    <div class="time">2:00 - 3:15 PM &middot; Session 2</div>
+    <div class="ttl">Catholic Storytelling in a Transformational Time</div>
+    <div class="where">Fr. David Guffey, C.S.C., National Director, Family Theater Productions &middot; Avalon 2-3</div>
+    <div class="tags"><span class="tag t-hc">HCFM / FTP</span><span class="tag t-vid">VIDEO / PHOTO</span></div>
+    <details class="sess"><summary>session detail and the four roundtables</summary>
+      <div class="ab">How shifts in Hollywood's tech and business models hit faith-based media, and best practices for storytelling across film, TV, streaming, and YouTube. This is our National Director; good to be in the room.</div>
+      <div class="opt"><b>Also 2:00-3:15 PM, peer roundtables:</b><br>Digital Media (Nicole Mamura, Archdiocese of St. Paul &amp; Minneapolis, Avalon 5-6). Strong analyst alternative.<br>Editorial (Jennifer Brinker, St. Louis Review, Avalon 10-12).<br>Communications (Montie Chavez, Archdiocese of Las Vegas, Avalon 20-21).<br>Business &amp; Advertising (JoAnn DiNapoli, DeSales Media, Avalon 13-14).</div>
+    </details>
+    <div class="conflict">Guffey and the Digital Media Roundtable run together. Pick one.</div>
+  </div>
+
+  <div class="item" data-min="915" data-end="990"><div class="time">3:15 - 4:30 PM</div><div class="ttl">Networking Break in the Exhibit Hall</div><div class="where">Booth.</div></div>
+  <div class="item eve" data-min="1020"><div class="time">5:00 PM</div><div class="ttl">Mass</div><div class="where">Avalon Ballroom, WCC</div></div>
+  <a class="back" href="#wed">Top</a>
+</section>
+
+<!-- =============== THURSDAY =============== -->
+<section class="day" id="thu">
+  <div class="dayhead"><h2>Thursday, June 18</h2><span>YouTube, Foley media panel, Google Analytics, film night</span></div>
+
+  <div class="plan">
+    <h3>Your plan</h3>
+    <div class="step"><div class="t">7:00 AM</div><div class="d">Open the booth, breakfast in the hall. Confirm cover with Allison for your two session blocks.</div></div>
+    <div class="step"><div class="t">9:30-10:45</div><div class="d"><b>Not Bombing on YouTube</b> (Spirit Juice, Avalon 10-12). Your video pick.</div></div>
+    <div class="step"><div class="t">11:30-1:45</div><div class="d"><b>Cardinal Foley Luncheon and media panel</b> (Avalon Ballroom). Go.</div></div>
+    <div class="step"><div class="t">2:45-4:00</div><div class="d"><b>Google Analytics in an AEO World</b> (Avalon 5-6). Your top analyst session of the week. Do not miss this one.</div></div>
+    <div class="step"><div class="t">5:00 PM</div><div class="d">Mass, Avalon Ballroom.</div></div>
+    <div class="step"><div class="t">7:30 PM</div><div class="d">Optional film: Debating Statues &amp; Saints (Avalon 24-25). Good for documentary technique.</div></div>
+    <div class="micro">Post your #CMCAC photo: you with a favorite session or exhibit.</div>
+  </div>
+
+  <div class="seclabel">Full program</div>
+
+  <div class="item" data-min="420" data-end="1020"><div class="time">7:00 AM - 5:00 PM</div><div class="ttl">Prayer Room Open</div><div class="where">Avalon 8</div></div>
+  <div class="item hcfm" data-min="420" data-end="990"><div class="time">7:00 AM - 4:30 PM</div><div class="ttl">Exhibit Hall Open (staff HCFM #2)</div><div class="where">Avalon 15-17. Coffee and breakfast 7:00-9:00.</div><div class="tags"><span class="tag t-hc">HCFM / FTP</span></div></div>
+  <div class="item" data-min="450" data-end="1020"><div class="time">7:30 AM - 5:00 PM</div><div class="ttl">Registration Desk Open</div><div class="where">Second Floor, WCC</div></div>
+  <div class="item" data-min="450" data-end="540"><div class="time">7:30 - 9:00 AM</div><div class="ttl">CMA Member Meeting</div><div class="where">Avalon Ballroom. Optional.</div></div>
+
+  <div class="item pri" data-min="570" data-end="645">
+    <div class="time">9:30 - 10:45 AM &middot; Session 3, Workshops</div>
+    <div class="ttl">A Catholic's Guide to Not Bombing on YouTube</div>
+    <div class="where">Rob Kaczmark, CEO, Spirit Juice Studios &middot; Avalon 10-12</div>
+    <div class="tags"><span class="tag t-vid">VIDEO / PHOTO</span></div>
+    <details class="sess"><summary>session detail and the other five workshops</summary>
+      <div class="ab">A live top-down audit of a real channel: what your page should look like, thumbnails and titles that get clicked, descriptions that convert, and content systems. Aligning mission with metrics. Your videographer lane.</div>
+      <div class="opt"><b>Also 9:30-10:45 AM:</b><br>How to Adapt News Stories into Social Content That Pops (ONE Magazine / CNEWA team, Avalon 24-25). Social and marketing.<br>The Digital Mission: Catholic Influencers (USCCB, Avalon 20-21). Digital.<br>Synodal Discernment as Change Management Comms (Franciscan Friars, Avalon 20-21).<br>Crafting Stories That Inspire and Inform (Jennifer Brinker, Avalon 2-3).<br>Building a Sales-driven Culture in Catholic Media (Camden, Mediavision2020, Mirabel, Avalon 13-14).</div>
+    </details>
+    <div class="conflict">Overlaps booth hours. Allison covers.</div>
+  </div>
+
+  <div class="item" data-min="645" data-end="690"><div class="time">10:45 - 11:30 AM</div><div class="ttl">Networking Break in the Exhibit Hall</div><div class="where">Booth.</div></div>
+
+  <div class="item pri" data-min="690" data-end="825">
+    <div class="time">11:30 AM - 1:45 PM</div>
+    <div class="ttl">Cardinal John P. Foley Award Luncheon and Media Panel</div>
+    <div class="where">Avalon Ballroom</div>
+    <div class="tags"><span class="tag t-br">BRAND</span><span class="tag t-an">ANALYST</span></div>
+    <details class="sess"><summary>panel detail</summary>
+      <div class="ab">"Communicating the Vision of Pope Leo XIV: Truth, Technology and Evangelization." Moderator Kerry Weber (America Media, CMA President). Panelists: Dr. Paolo Ruffini (Dicastery for Communication), Carol Glatz (CNS Rome), Fr. Arthur Purcaro, OSA (Villanova).</div>
+    </details>
+  </div>
+
+  <div class="item" data-min="825" data-end="870"><div class="time">1:45 - 2:30 PM</div><div class="ttl">Networking Break in the Exhibit Hall</div><div class="where">Booth.</div></div>
+
+  <div class="item pri" data-min="885" data-end="960">
+    <div class="time">2:45 - 4:00 PM &middot; Session 4, Workshops</div>
+    <div class="ttl">Google Analytics in an AEO World</div>
+    <div class="where">Joe Garcia III, Senior Evangelist, eCatholic &middot; Avalon 5-6</div>
+    <div class="tags"><span class="tag t-an">ANALYST</span></div>
+    <details class="sess"><summary>session detail and the other five workshops</summary>
+      <div class="ab">How Google Analytics keeps informing strategy as answer engine optimization reshapes discovery: using analytics to guide content structure, evaluate performance, and shape website strategy. Your top analyst session.</div>
+      <div class="opt"><b>Also 2:45-4:00 PM:</b><br>Visualizing the Past: How AI is Shaping Diocesan Storytelling (Archdiocese of Las Vegas team behind "A Journey of Hope," Avalon 24-25). AI plus video, your second choice this slot.<br>Proactive, Pastoral, Public: Modern Media Relations (Torchia, Archdiocese of Philadelphia, Spackle Media, Avalon 20-21).<br>Help Your Bishop Reach 90% of Catholics (Prenger / Catholic Social Media, Avalon 10-12). Data-backed reach.<br>Collaborative Journalism (ONE Magazine, Avalon 13-14).<br>Keeping Mission at the Heart of Every Issue (FAITH Catholic, Avalon 2-3).</div>
+    </details>
+    <div class="conflict">Overlaps booth hours and the AI storytelling session. Prioritize this.</div>
+  </div>
+
+  <div class="item" data-min="960" data-end="990"><div class="time">4:00 - 4:30 PM</div><div class="ttl">Break in the Exhibit Hall</div></div>
+  <div class="item eve" data-min="1020"><div class="time">5:00 PM</div><div class="ttl">Mass</div><div class="where">Avalon Ballroom, WCC</div></div>
+  <div class="item pri eve" data-min="1170">
+    <div class="time">7:30 PM</div>
+    <div class="ttl">Film Screening: Debating Statues &amp; Saints</div>
+    <div class="where">Avalon 24-25 Theater. Documentary on polarization via the Junipero Serra statue debate.</div>
+    <div class="tags"><span class="tag t-vid">VIDEO / PHOTO</span></div>
+  </div>
+  <a class="back" href="#thu">Top</a>
+</section>
+
+<!-- =============== FRIDAY =============== -->
+<section class="day" id="fri">
+  <div class="dayhead"><h2>Friday, June 19</h2><span>Visual storytelling, dismantle, Memorial Mass, Gabriel Awards</span></div>
+
+  <div class="plan">
+    <h3>Your plan</h3>
+    <div class="step"><div class="t">7:00 AM</div><div class="d">Open the booth (closes 2:00 today), breakfast. Start packing loose items so dismantle is fast.</div></div>
+    <div class="step"><div class="t">9:30-10:45</div><div class="d"><b>Seeing First: Visual Storytelling</b> (Jeffrey Bruno, Avalon 5-6). Your top video and photo session. Allison covers booth.</div></div>
+    <div class="step"><div class="t">11:30-1:30</div><div class="d"><b>St. Francis de Sales Luncheon and keynote</b> (Avalon Ballroom).</div></div>
+    <div class="step"><div class="t">2:00-3:30</div><div class="d"><b>Dismantle the booths</b> with Allison. This is the priority, so you will miss the 2:00 film and 2:30 Eastern roundtable.</div></div>
+    <div class="step"><div class="t">4:00 PM</div><div class="d">Jitney to Memorial Mass from WCC Porte Entrance.</div></div>
+    <div class="step"><div class="t">5-6 PM</div><div class="d">CMA Memorial Mass, St. Nicholas of Tolentine. Jitney back at 6:30.</div></div>
+    <div class="step"><div class="t">7-10 PM</div><div class="d"><b>Gabriel Awards night</b>, Avalon Ballroom. Business professional, dress up. Reception at 7, awards at 8.</div></div>
+    <div class="micro">Post your #CMCAC photo: you in Atlantic City.</div>
+  </div>
+
+  <div class="seclabel">Full program</div>
+
+  <div class="item" data-min="420" data-end="900"><div class="time">7:00 AM - 3:00 PM</div><div class="ttl">Prayer Room Open</div><div class="where">Avalon 8</div></div>
+  <div class="item hcfm" data-min="420" data-end="840"><div class="time">7:00 AM - 2:00 PM</div><div class="ttl">Exhibit Hall Open (staff HCFM #2)</div><div class="where">Avalon 15-17. Coffee and breakfast 7:00-9:00.</div><div class="tags"><span class="tag t-hc">HCFM / FTP</span></div></div>
+  <div class="item" data-min="450" data-end="900"><div class="time">7:30 AM - 3:00 PM</div><div class="ttl">Registration Desk Open</div><div class="where">Second Floor, WCC</div></div>
+  <div class="item" data-min="450" data-end="510"><div class="time">7:30 - 8:30 AM</div><div class="ttl">CNEWA Sponsored Breakfast and Program</div><div class="where">Avalon Ballroom. Optional.</div></div>
+
+  <div class="item pri" data-min="570" data-end="645">
+    <div class="time">9:30 - 10:45 AM &middot; Session 5, Workshops</div>
+    <div class="ttl">Seeing First: Visual Storytelling and the Art of Being Heard in a Noisy World</div>
+    <div class="where">Jeffrey Bruno, Photojournalist &middot; Avalon 5-6</div>
+    <div class="tags"><span class="tag t-vid">VIDEO / PHOTO</span></div>
+    <details class="sess"><summary>session detail and the other workshops</summary>
+      <div class="ab">Learning to see the quiet moments that carry a story, weaving photos and words into one experience, building a recognizable voice, and using social media for distribution rather than distraction. Not a technical workshop, a craft session. Made for you.</div>
+      <div class="opt"><b>Also 9:30-10:45 AM:</b><br>How to Create an AI Policy for Your Newsroom (America Media, Arkansas Catholic, Galveston-Houston, Avalon 10-12).<br>Reaching Cultural Catholics Through Diocesan Storytelling (FAITH Catholic, Tyler, Metuchen, Avalon 2-3).<br>Appeals &amp; Capital Campaigns, 5 Mistakes to Avoid (Smith House, Avalon 13-14).<br>Also running: Film, Sacred Heart, 9:30-11:30 in Avalon 24-25 Theater.</div>
+    </details>
+    <div class="conflict">Overlaps booth hours. Allison covers.</div>
+  </div>
+
+  <div class="item" data-min="645" data-end="690"><div class="time">10:45 - 11:30 AM</div><div class="ttl">Networking Break in the Exhibit Hall</div><div class="where">Booth.</div></div>
+
+  <div class="item" data-min="690" data-end="810">
+    <div class="time">11:30 AM - 1:30 PM</div>
+    <div class="ttl">St. Francis de Sales Award Luncheon and Keynote</div>
+    <div class="where">Avalon Ballroom. Keynote: Kerry Alys Robinson, President &amp; CEO, Catholic Charities USA. CMA's highest member award.</div>
+  </div>
+
+  <div class="item" data-min="810" data-end="840"><div class="time">1:30 - 2:00 PM</div><div class="ttl">Prize Giveaway in the Exhibit Hall</div><div class="where">Drawing about 1:45 PM.</div></div>
+
+  <div class="item hcfm" data-min="840" data-end="930">
+    <div class="time">2:00 - 3:30 PM</div>
+    <div class="ttl">Booth Dismantle (HCFM #2, FTP #1)</div>
+    <div class="where">Avalon 15-17. Tear down and pack out.</div>
+    <div class="tags"><span class="tag t-hc">HCFM / FTP</span></div>
+    <div class="conflict">Blocks the 2:00-4:00 film and the 2:30 Eastern roundtable below.</div>
+  </div>
+  <div class="item" data-min="840" data-end="960"><div class="time">2:00 - 4:00 PM</div><div class="ttl">Film: American Martyr, The Stanley Rother Story</div><div class="where">Avalon 24-25 Theater. Narrated by Martin Sheen. Conflicts with dismantle.</div><div class="tags"><span class="tag t-vid">VIDEO / PHOTO</span></div></div>
+  <div class="item" data-min="870" data-end="930"><div class="time">2:30 - 3:30 PM &middot; Session 6</div><div class="ttl">Region Roundtables</div><div class="where">Eastern (HCFM's region) in Avalon 10-12, plus Western, Midwest, Southern, Canadian. Conflicts with dismantle.</div></div>
+
+  <div class="item eve" data-min="960"><div class="time">4:00 PM</div><div class="ttl">Transportation to CMA Memorial Mass</div><div class="where">Jitneys depart WCC Porte Entrance.</div></div>
+  <div class="item eve" data-min="1020" data-end="1080"><div class="time">5:00 - 6:00 PM</div><div class="ttl">CMA Memorial Mass</div><div class="where">St. Nicholas of Tolentine Church, 1409 Pacific Ave.</div></div>
+  <div class="item eve" data-min="1110"><div class="time">6:30 PM</div><div class="ttl">Transportation back to Harrah's</div><div class="where">Jitneys depart St. Nicholas of Tolentine.</div></div>
+  <div class="item eve" data-min="1140" data-end="1200"><div class="time">7:00 - 8:00 PM</div><div class="ttl">Awards Reception</div><div class="where">Pre-function Area, Avalon Ballroom.</div></div>
+  <div class="item eve" data-min="1200" data-end="1320"><div class="time">8:00 - 10:00 PM</div><div class="ttl">Catholic Media Awards and 60th Annual Gabriel Awards</div><div class="where">Avalon Ballroom. Business professional. The closing celebration.</div></div>
+  <a class="back" href="#fri">Top</a>
+</section>
+
+<div class="verify">
+  <h3>Two things to confirm on site</h3>
+  <p><b>Awards night.</b> The official program puts the combined Catholic Media and Gabriel Awards on Friday night. A pre-conference email implied a Thursday Gabriels plus a separate Friday banquet. Treat Friday as the formal awards night and confirm at Registration if you hear otherwise.</p>
+  <p><b>Date typo.</b> One welcome email listed registration dates as June 24 to 27. That is a template error. The conference is June 16 to 19.</p>
+</div>
+
+<footer>Source: CMC 2026 mobile schedule and session pages (catholicmediaconference.org), CMC welcome and attendee emails, Julie's CMC 2026 Show document. All times Eastern. Schedule subject to change.</footer>
+
+</div>
+
+<script>
+(function(){
+  function pad(n){return (n<10?'0':'')+n}
+  var map={'2026-06-16':'tue','2026-06-17':'wed','2026-06-18':'thu','2026-06-19':'fri'};
+  function title(it){return it.querySelector('.ttl')?it.querySelector('.ttl').textContent.replace('NOW','').trim():''}
+  function timeStr(it){return it.querySelector('.time')?it.querySelector('.time').textContent:''}
+  function whereStr(it){return it.querySelector('.where')?it.querySelector('.where').textContent:''}
+
+  var now=new Date();
+  var today=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
+  document.querySelectorAll('nav.days a').forEach(function(a){
+    if(a.getAttribute('data-d')===today) a.classList.add('active');
+  });
+  var dayId=map[today];
+  if(!dayId) return; // not a conference day, leave as a plain reference
+
+  // jump to today once on first load
+  setTimeout(function(){
+    var sec=document.getElementById(dayId);
+    if(sec) sec.scrollIntoView({behavior:'auto',block:'start'});
+  },120);
+
+  var bar=document.getElementById('nowbar');
+  var sec=document.getElementById(dayId);
+  if(!sec) return;
+  var items=Array.prototype.slice.call(sec.querySelectorAll('.item[data-min]'));
+
+  function refresh(){
+    var d=new Date();
+    var mins=d.getHours()*60+d.getMinutes();
+    var current=null;
+    // clear previous markers
+    items.forEach(function(it){
+      it.classList.remove('nowev');
+      var tg=it.querySelector('.nowtag'); if(tg) tg.remove();
+    });
+    items.forEach(function(it){
+      var s=parseInt(it.getAttribute('data-min'),10);
+      var e=it.getAttribute('data-end')?parseInt(it.getAttribute('data-end'),10):s+30;
+      if(mins>=s && mins<e && !current) current=it;
+    });
+    var future=items.filter(function(it){return parseInt(it.getAttribute('data-min'),10)>mins;});
+    future.sort(function(a,b){return parseInt(a.getAttribute('data-min'),10)-parseInt(b.getAttribute('data-min'),10);});
+    var next=future.length?future[0]:null;
+
+    bar.style.display='block';
+    if(current){
+      current.classList.add('nowev');
+      var nt=current.querySelector('.ttl');
+      if(nt){var s2=document.createElement('span');s2.className='nowtag';s2.textContent='NOW';nt.appendChild(s2);}
+      document.getElementById('nowEv').textContent=title(current);
+      document.getElementById('nowMt').textContent=timeStr(current)+' . '+whereStr(current);
+    } else {
+      document.getElementById('nowEv').textContent='No session in progress right now.';
+      document.getElementById('nowMt').textContent='Updated '+pad(d.getHours())+':'+pad(d.getMinutes());
+    }
+    if(next){
+      document.getElementById('nextWrap').style.display='block';
+      document.getElementById('nextEv').textContent=title(next);
+      document.getElementById('nextMt').textContent=timeStr(next)+' . '+whereStr(next);
+    } else {
+      document.getElementById('nextWrap').style.display='none';
+    }
+  }
+  refresh();
+  setInterval(refresh,30000); // ticks itself every 30 seconds
+})();
+</script>
+</body>
+</html>
